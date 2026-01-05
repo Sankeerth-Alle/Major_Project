@@ -4,10 +4,9 @@ if (process.env.NODE_ENV != "production") {
   require("dotenv").config();
 }
 
-console.log(process.env.SECRET);
-
 const express = require("express");
 const app = express();
+const port = 8080;
 const mongoose = require("mongoose");
 const path = require("path");
 const methodOverride = require("method-override");
@@ -33,7 +32,7 @@ const dbUrl = process.env.ATLASDB_URL;
 main()
   .then(() => {
     console.log("connected to DB");
-    app.listen(8080, () => {
+    app.listen(port, () => {
       console.log("server is listening to 8080 port");
     });
   })
@@ -75,10 +74,6 @@ const sessionOptions = {
   },
 };
 
-// app.get("/", (req, res) => {
-//   res.send("Hello from Airbnb Express Server!");
-// });
-
 
 app.use(session(sessionOptions));
 app.use(flash());
@@ -109,6 +104,10 @@ app.use((req, res, next) => {
 // })
 
 //Using Routes
+app.get("/", (req, res) => {
+  res.redirect("/listings");
+});
+
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
 app.use("/", userRouter);
