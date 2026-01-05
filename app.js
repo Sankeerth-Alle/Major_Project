@@ -114,10 +114,10 @@ app.use("/listings/:id/reviews", reviewRouter);
 app.use("/", userRouter);
 
 //Handle all 404 Errors
-app.all("/:path(.*)", (req, res, next) => {
-  //If the request doesn't match any of the above routes then we can send a standard response
+app.use((req, res, next) => {
   next(new ExpressError(404, "Page not found!"));
 });
+
 
 //Error Handler Middleware
 app.use((err, req, res, next) => {
