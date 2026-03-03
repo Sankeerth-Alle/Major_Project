@@ -1,20 +1,12 @@
-# Use Node 20 (matches your local setup)
-FROM node:20
+FROM node:20-alpine
 
-# Set working directory
 WORKDIR /app
 
-# Copy package files first
 COPY package*.json ./
+RUN npm install --omit=dev
 
-# Install dependencies
-RUN npm install
-
-# Copy rest of code
 COPY . .
 
-# Expose port
 EXPOSE 8080
 
-# Start app
 CMD ["node", "app.js"]
